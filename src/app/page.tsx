@@ -47,7 +47,7 @@ export default function Home() {
     navigator.clipboard.writeText(text);
   }
   return (
-    <main className="flex flex-col min-h-screen items-center justify-between p-24">
+    <main className="flex flex-col min-h-screen items-center justify-between p-0">
       <Card className="w-full max-w-md relative">
         <ModeToggle />
         <CardHeader>
