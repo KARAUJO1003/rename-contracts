@@ -15,6 +15,12 @@ import { toast } from "sonner";
 import { Copy } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "./_components/toggle-theme";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface RenamedProps {
   quadra: number;
@@ -43,7 +49,7 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen items-center justify-between p-24">
       <Card className="w-full max-w-md relative">
-      <ModeToggle />
+        <ModeToggle />
         <CardHeader>
           <CardTitle className="text-2xl">Renomeie Contratos</CardTitle>
           <CardDescription>
@@ -126,43 +132,56 @@ export default function Home() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col  gap-5">
-          <Button onClick={handleRenameFileName} className="w-full dark:bg-blue-600 dark:text-primary">
-            Gerar 
+          <Button
+            onClick={handleRenameFileName}
+            className="w-full dark:bg-blue-600 dark:text-primary"
+          >
+            Gerar
           </Button>
-            <ScrollArea className="px-4">
-          <div className="max-h-40 space-y-3">
-            {newFileName.map((item, index) => (
-              <Card
-                className="p-3 w-full flex items-center justify-between shadow-none  space-x-3"
-                key={index}
-              >
-                <CardDescription>
-                  {`QD_${String(item.quadra).padStart(2, "0")}_LT_${String(
-                    item.lote
-                  ).padStart(2, "0")}_${item.titulo}_328_CDRVA_${item.venda}_(${
-                    item.id
-                  })`}
-                </CardDescription>
-
-                <Button
-                  size={"icon"}
-                  variant={"outline"}
-                  onClick={() =>
-                    handleCopyToClipboard(
-                      `QD_${String(item.quadra).padStart(2, "0")}_LT_${String(
-                        item.lote
-                      ).padStart(2, "0")}_${item.titulo}_328_CDRVA_${
-                        item.venda
-                      }_(${item.id})`
-                    )
-                  }
+          <ScrollArea className="px-4">
+            <div className="max-h-40 space-y-3">
+              {newFileName.map((item, index) => (
+                <Card
+                  className="p-3 w-full flex items-center justify-between shadow-none  space-x-3"
+                  key={index}
                 >
-                  <Copy size={12} />
-                </Button>
-              </Card>
-            ))}
-          </div>
-            </ScrollArea>
+                  <CardDescription>
+                    {`QD_${String(item.quadra).padStart(2, "0")}_LT_${String(
+                      item.lote
+                    ).padStart(2, "0")}_${item.titulo}_328_CDRVA_${
+                      item.venda
+                    }_(${item.id})`}
+                  </CardDescription>
+
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    onClick={() =>
+                      handleCopyToClipboard(
+                        `QD_${String(item.quadra).padStart(2, "0")}_LT_${String(
+                          item.lote
+                        ).padStart(2, "0")}_${item.titulo}_328_CDRVA_${
+                          item.venda
+                        }_(${item.id})`
+                      )
+                    }
+                  >
+                    <TooltipProvider>
+                      <Tooltip delayDuration={2} >
+                        <TooltipTrigger asChild>
+                          <Button variant="outline"><Copy size={12} /></Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Copiar resultado para área de transferência.</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    
+                  </Button>
+                </Card>
+              ))}
+            </div>
+          </ScrollArea>
         </CardFooter>
       </Card>
     </main>
