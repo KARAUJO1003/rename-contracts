@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { Check, Copy } from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
@@ -39,31 +39,46 @@ export default function Home() {
   const [suffix, setSuffix] = useState<number | null>(1)
   const [newFileName, setNewFileName] = useState<RenamedProps[]>([])
   const [showCopyIcon, setShowCopyIcon] = useState(false)
+  const [formattedResults, setFormattedResults] = useState<string[]>([])
 
-  function handleRenameFileName() {
-    if (quadra !== null && lote !== null && venda !== null && titulo !== null) {
-      // Verificar se já existe um registro com as mesmas informações
-      const isDuplicate = newFileName.some(
-        (item) =>
-          item.quadra === quadra &&
-          item.lote === lote &&
-          item.titulo === titulo &&
-          item.venda === venda &&
-          item.suffix === suffix,
-      )
-
-      if (isDuplicate) {
-        toast.error('Já existe um registro com essas informações.')
-      } else {
-        setNewFileName([
-          { quadra, lote, titulo, venda, suffix },
-          ...newFileName,
-        ])
-      }
-    } else {
+  const handleRenameFileName = () => {
+    if (!quadra || !lote || !venda || !titulo) {
       toast.error('Preencha todos os campos obrigatórios.')
+      return
     }
+
+    const isDuplicate = newFileName.some(
+      (item) =>
+        item.quadra === quadra &&
+        item.lote === lote &&
+        item.titulo === titulo &&
+        item.venda === venda &&
+        item.suffix === suffix,
+    )
+
+    if (isDuplicate) {
+      toast.error('Já existe um registro com essas informações.')
+      return
+    }
+
+    setNewFileName([{ quadra, lote, titulo, venda, suffix }, ...newFileName])
   }
+
+  useEffect(() => {
+    // Função para formatar os resultados
+    const formatResults = () => {
+      return newFileName.map((item) => {
+        return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
+          item.lote,
+        ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${item.venda}_(${
+          item.suffix
+        })`
+      })
+    }
+
+    // Atualiza o estado com os resultados formatados
+    setFormattedResults(formatResults())
+  }, [newFileName])
 
   function handleCopyToClipboard(text: string) {
     toast.success(text)
@@ -75,20 +90,18 @@ export default function Home() {
       setShowCopyIcon(false)
     }, 2000)
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleTituloChange = (e: any) => {
+
+  const handleTituloChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.replace(/[^\w\s]/gi, '') // Remove caracteres especiais
     setTitulo(inputValue.toUpperCase()) // Converte para maiúsculas e atualiza o estado
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleQuadraChange = (e: any) => {
+  const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setQuadra(Number(inputValue))
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleLoteChange = (e: any) => {
+  const handleLoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setLote(Number(inputValue))
   }
@@ -210,35 +223,21 @@ export default function Home() {
 
       <ScrollArea className="w-full ">
         <div className="max-h-80 space-y-3 ">
-          {newFileName.length > 0 && <div>Resultado</div>}
-
-          {newFileName.map((item, index) => (
+          {formattedResults.map((result, index) => (
             <Card
               className="p-4 px-6 w-full  flex items-center justify-between shadow-none  space-x-3"
               key={index}
             >
               <ScrollArea className="w-full py-2">
                 <CardDescription className="text-xs text-primary uppercase max-w-80 select-none">
-                  {`QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
-                    item.lote,
-                  ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${item.venda}_(${
-                    item.suffix
-                  })`}
+                  {result}
                 </CardDescription>
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
               <Button
                 size={'icon'}
                 variant={'outline'}
-                onClick={() =>
-                  handleCopyToClipboard(
-                    `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
-                      item.lote,
-                    ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${
-                      item.venda
-                    }_(${item.suffix})`,
-                  )
-                }
+                onClick={() => handleCopyToClipboard(result)}
               >
                 <TooltipProvider>
                   <Tooltip delayDuration={2}>
