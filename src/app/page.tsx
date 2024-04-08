@@ -167,7 +167,7 @@ export default function Home() {
                     }
                   >
                     <TooltipProvider>
-                      <Tooltip delayDuration={2} >
+                      <Tooltip delayDuration={2}>
                         <TooltipTrigger asChild>
                           <Button variant="outline"><Copy size={12} /></Button>
                         </TooltipTrigger>
