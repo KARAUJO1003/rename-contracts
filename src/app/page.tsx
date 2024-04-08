@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Check, Copy } from 'lucide-react'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { ModeToggle } from './_components/toggle-theme'
 import {
   Tooltip,
@@ -28,7 +28,7 @@ interface RenamedProps {
   lote: number | null
   titulo: string | null
   venda: number | null
-  id: number | null
+  suffix: number | null
 }
 
 export default function Home() {
@@ -36,7 +36,7 @@ export default function Home() {
   const [lote, setLote] = useState<number | null>(null)
   const [titulo, setTitulo] = useState<string | null>(null)
   const [venda, setVenda] = useState<number | null>(null)
-  const [id, setId] = useState<number | null>(1)
+  const [suffix, setSuffix] = useState<number | null>(1)
   const [newFileName, setNewFileName] = useState<RenamedProps[]>([])
   const [showCopyIcon, setShowCopyIcon] = useState(false)
 
@@ -49,13 +49,16 @@ export default function Home() {
           item.lote === lote &&
           item.titulo === titulo &&
           item.venda === venda &&
-          item.id === id,
+          item.suffix === suffix,
       )
 
       if (isDuplicate) {
         toast.error('Já existe um registro com essas informações.')
       } else {
-        setNewFileName([{ quadra, lote, titulo, venda, id }, ...newFileName])
+        setNewFileName([
+          { quadra, lote, titulo, venda, suffix },
+          ...newFileName,
+        ])
       }
     } else {
       toast.error('Preencha todos os campos obrigatórios.')
@@ -115,6 +118,7 @@ export default function Home() {
                 value={quadra as number}
                 id="qd"
                 type="number"
+                min={1}
                 placeholder="--"
                 maxLength={2}
                 required
@@ -131,6 +135,7 @@ export default function Home() {
                 value={lote as number}
                 id="lt"
                 type="number"
+                min={1}
                 placeholder="--"
                 maxLength={2}
                 required
@@ -174,18 +179,20 @@ export default function Home() {
                 value={venda as number}
                 id="venda"
                 type="number"
+                min={1}
                 placeholder="-----"
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="id">Indice</Label>
+              <Label htmlFor="suffix">Sufixo</Label>
               <Input
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
-                onChange={(e) => setId(Number(e.target.value))}
-                value={id as number}
-                id="id"
+                onChange={(e) => setSuffix(Number(e.target.value))}
+                value={suffix as number}
+                id="suffix"
                 type="number"
+                min={1}
                 placeholder="Digite o número da ordem do documento..."
               />
             </div>
@@ -201,23 +208,25 @@ export default function Home() {
         </CardFooter>
       </Card>
 
-      <ScrollArea className="w-full">
-        <div className="max-h-80 space-y-3 mr-5">
+      <ScrollArea className="w-full ">
+        <div className="max-h-80 space-y-3 ">
           {newFileName.length > 0 && <div>Resultado</div>}
 
           {newFileName.map((item, index) => (
             <Card
-              className="p-4 px-6 w-full flex items-center justify-between shadow-none  space-x-3"
+              className="p-4 px-6 w-full  flex items-center justify-between shadow-none  space-x-3"
               key={index}
             >
-              <CardDescription className="text-xs text-primary uppercase">
-                {`QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
-                  item.lote,
-                ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${item.venda}_(${
-                  item.id
-                })`}
-              </CardDescription>
-
+              <ScrollArea className="w-full py-2">
+                <CardDescription className="text-xs text-primary uppercase max-w-80 select-none">
+                  {`QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
+                    item.lote,
+                  ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${item.venda}_(${
+                    item.suffix
+                  })`}
+                </CardDescription>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
               <Button
                 size={'icon'}
                 variant={'outline'}
@@ -227,7 +236,7 @@ export default function Home() {
                       item.lote,
                     ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${
                       item.venda
-                    }_(${item.id})`,
+                    }_(${item.suffix})`,
                   )
                 }
               >
