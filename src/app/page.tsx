@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -8,38 +8,37 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { SyntheticEvent, useState } from "react";
-import { toast } from "sonner";
-import { Check, Copy } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { ModeToggle } from "./_components/toggle-theme";
+} from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { Check, Copy } from 'lucide-react'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { ModeToggle } from './_components/toggle-theme'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip'
 
 interface RenamedProps {
-  quadra: number | null;
-  lote: number | null;
-  titulo: string | null;
-  venda: number | null;
-  id: number | null;
+  quadra: number | null
+  lote: number | null
+  titulo: string | null
+  venda: number | null
+  id: number | null
 }
 
 export default function Home() {
-  const [quadra, setQuadra] = useState<number | null>(null);
-  const [lote, setLote] = useState<number | null>(null);
-  const [titulo, setTitulo] = useState<string | null>(null);
-  const [venda, setVenda] = useState<number | null>(null);
-  const [id, setId] = useState<number | null>(1);
-  const [newFileName, setNewFileName] = useState<RenamedProps[]>([]);
-  const [resultFormated, setResultFormated] = useState();
-  const [showCopyIcon, setShowCopyIcon] = useState(false);
+  const [quadra, setQuadra] = useState<number | null>(null)
+  const [lote, setLote] = useState<number | null>(null)
+  const [titulo, setTitulo] = useState<string | null>(null)
+  const [venda, setVenda] = useState<number | null>(null)
+  const [id, setId] = useState<number | null>(1)
+  const [newFileName, setNewFileName] = useState<RenamedProps[]>([])
+  const [showCopyIcon, setShowCopyIcon] = useState(false)
 
   function handleRenameFileName() {
     if (quadra !== null && lote !== null && venda !== null && titulo !== null) {
@@ -50,43 +49,46 @@ export default function Home() {
           item.lote === lote &&
           item.titulo === titulo &&
           item.venda === venda &&
-          item.id === id
-      );
-  
+          item.id === id,
+      )
+
       if (isDuplicate) {
-        toast.error("Já existe um registro com essas informações.");
+        toast.error('Já existe um registro com essas informações.')
       } else {
-        setNewFileName([{ quadra, lote, titulo, venda, id }, ...newFileName]);
+        setNewFileName([{ quadra, lote, titulo, venda, id }, ...newFileName])
       }
     } else {
-      toast.error("Preencha todos os campos obrigatórios.");
+      toast.error('Preencha todos os campos obrigatórios.')
     }
   }
 
   function handleCopyToClipboard(text: string) {
-    toast.success(text);
-    navigator.clipboard.writeText(text);
+    toast.success(text)
+    navigator.clipboard.writeText(text)
 
-    setShowCopyIcon(true);
+    setShowCopyIcon(true)
 
     setTimeout(() => {
-      setShowCopyIcon(false);
-    }, 2000);
+      setShowCopyIcon(false)
+    }, 2000)
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTituloChange = (e: any) => {
-    const inputValue = e.target.value.replace(/[^\w\s]/gi, ""); // Remove caracteres especiais
-    setTitulo(inputValue.toUpperCase()); // Converte para maiúsculas e atualiza o estado
-  };
+    const inputValue = e.target.value.replace(/[^\w\s]/gi, '') // Remove caracteres especiais
+    setTitulo(inputValue.toUpperCase()) // Converte para maiúsculas e atualiza o estado
+  }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleQuadraChange = (e: any) => {
-    const inputValue = e.target.value.slice(0, 2); // Limita a entrada a 2 caracteres
-    setQuadra(Number(inputValue));
-  };
+    const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
+    setQuadra(Number(inputValue))
+  }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLoteChange = (e: any) => {
-    const inputValue = e.target.value.slice(0, 2); // Limita a entrada a 2 caracteres
-    setLote(Number(inputValue));
-  };
+    const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
+    setLote(Number(inputValue))
+  }
 
   return (
     <main className="min-h-screen max-w-lg mx-auto py-5 space-y-5 max-sm:px-4">
@@ -104,11 +106,11 @@ export default function Home() {
           <div className="flex sm:items-center gap-5 max-sm:flex-col">
             <div className="grid gap-2">
               <Label htmlFor="qd">
-                {" "}
+                {' '}
                 <span className="text-xs text-red-500 mr-2">*</span>Quadra
               </Label>
               <Input
-                onKeyDown={(e) => e.key === "Enter" && handleRenameFileName()}
+                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={handleQuadraChange}
                 value={quadra as number}
                 id="qd"
@@ -120,11 +122,11 @@ export default function Home() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="lt">
-                {" "}
+                {' '}
                 <span className="text-xs text-red-500 mr-2">*</span>Lote
               </Label>
               <Input
-                onKeyDown={(e) => e.key === "Enter" && handleRenameFileName()}
+                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={handleLoteChange}
                 value={lote as number}
                 id="lt"
@@ -142,15 +144,15 @@ export default function Home() {
             </Label>
             <Input
               onKeyDown={(e) => {
-                if (e.key === " ") {
-                  e.preventDefault(); // Impede a inserção da barra de espaço no input
+                if (e.key === ' ') {
+                  e.preventDefault() // Impede a inserção da barra de espaço no input
                   setTitulo((prevTitulo) => {
                     // Substitui o espaço por "_"
-                    return prevTitulo ? prevTitulo.trim() + "_" : "_";
-                  });
+                    return prevTitulo ? prevTitulo.trim() + '_' : '_'
+                  })
                 }
-                if (e.key === "Enter") {
-                  handleRenameFileName();
+                if (e.key === 'Enter') {
+                  handleRenameFileName()
                 }
               }}
               onChange={handleTituloChange}
@@ -163,11 +165,11 @@ export default function Home() {
           <div className="flex sm:items-center gap-5 max-sm:flex-col">
             <div className="grid gap-2">
               <Label htmlFor="venda">
-                {" "}
+                {' '}
                 <span className="text-xs text-red-500 mr-2">*</span>Venda
               </Label>
               <Input
-                onKeyDown={(e) => e.key === "Enter" && handleRenameFileName()}
+                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setVenda(Number(e.target.value))}
                 value={venda as number}
                 id="venda"
@@ -179,7 +181,7 @@ export default function Home() {
             <div className="grid gap-2">
               <Label htmlFor="id">Indice</Label>
               <Input
-                onKeyDown={(e) => e.key === "Enter" && handleRenameFileName()}
+                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setId(Number(e.target.value))}
                 value={id as number}
                 id="id"
@@ -209,23 +211,23 @@ export default function Home() {
               key={index}
             >
               <CardDescription className="text-xs text-primary uppercase">
-                {`QD_${String(item.quadra).padStart(2, "0")}_LT_${String(
-                  item.lote
-                ).padStart(2, "0")}_${item.titulo}_328_CDRVA_${item.venda}_(${
+                {`QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
+                  item.lote,
+                ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${item.venda}_(${
                   item.id
                 })`}
               </CardDescription>
 
               <Button
-                size={"icon"}
-                variant={"outline"}
+                size={'icon'}
+                variant={'outline'}
                 onClick={() =>
                   handleCopyToClipboard(
-                    `QD_${String(item.quadra).padStart(2, "0")}_LT_${String(
-                      item.lote
-                    ).padStart(2, "0")}_${item.titulo}_328_CDRVA_${
+                    `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
+                      item.lote,
+                    ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${
                       item.venda
-                    }_(${item.id})`
+                    }_(${item.id})`,
                   )
                 }
               >
@@ -254,5 +256,5 @@ export default function Home() {
         </div>
       </ScrollArea>
     </main>
-  );
+  )
 }
