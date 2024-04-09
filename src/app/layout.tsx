@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from './providers/theme-provider'
+import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ptbr">
-      <body className={inter.className}>
+      <body className={cn('bg-slate-100 dark:bg-slate-950', inter.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
