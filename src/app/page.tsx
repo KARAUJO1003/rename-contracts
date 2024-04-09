@@ -148,6 +148,7 @@ export default function Home() {
             Adicione as informações solicitadas abaixo e copie o resultado para
             área de transferência.
           </CardDescription>
+          {/* <ComboboxDemo /> */}
         </CardHeader>
 
         <CardContent className="grid gap-4 ">
@@ -348,7 +349,7 @@ export default function Home() {
                   )}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+              <TooltipContent className="bg-slate-100 border dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                 Ordenar por ordem alfabética
               </TooltipContent>
             </Tooltip>
