@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { InfoDisableInput } from './_components/info-disabled-input'
 
 interface RenamedProps {
   quadra: number | null
@@ -41,6 +42,15 @@ export default function Home() {
   const [empresa, setEmpresa] = useState<number>(328)
   const [obra, setObra] = useState<string | ''>('CDRVA')
   const [suffix, setSuffix] = useState<number>(1)
+
+  const [quadraDisabled, setQuadraDisabled] = useState<boolean>(false)
+  const [loteDisabled, setLoteDisabled] = useState<boolean>(false)
+  const [tituloDisabled, setTituloDisabled] = useState<boolean>(false)
+  const [vendaDisabled, setVendaDisabled] = useState<boolean>(false)
+  const [empresaDisabled, setEmpresaDisabled] = useState<boolean>(true)
+  const [obraDisabled, setObraDisabled] = useState<boolean>(true)
+  const [suffixDisabled, setSuffixDisabled] = useState<boolean>(true)
+
   const [newFileName, setNewFileName] = useState<RenamedProps[]>([])
   const [copiedItemIndex, setCopiedItemIndex] = useState<number | null>(null)
   const [formattedResults, setFormattedResults] = useState<string[]>([])
@@ -80,12 +90,9 @@ export default function Home() {
       return newFileName.map((item) => {
         return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
           item.lote,
-        ).padStart(
-          2,
-          '0',
-        )}_${item.titulo}_${item.empresa}_${item.obra}_${item.venda}_(${
-          item.suffix
-        })`
+        ).padStart(2, '0')}_${item.titulo}_${item.empresa}_${item.obra}_${
+          item.venda
+        }_(${item.suffix})`
       })
     }
 
@@ -141,10 +148,16 @@ export default function Home() {
         <CardContent className="grid gap-4 ">
           <div className="flex sm:items-center gap-5 ">
             <div className="grid gap-2">
-              <Label htmlFor="qd">
+              <Label
+                className="flex items-center gap-2"
+                onDoubleClick={() => setQuadraDisabled(!quadraDisabled)}
+                htmlFor="qd"
+              >
+                <InfoDisableInput />
                 <span className="text-xs text-red-500 mr-2">*</span>Quadra
               </Label>
               <Input
+                disabled={quadraDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={handleQuadraChange}
                 value={quadra !== undefined ? quadra : ''}
@@ -157,10 +170,16 @@ export default function Home() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="lt">
+              <Label
+                onDoubleClick={() => setLoteDisabled(!loteDisabled)}
+                className="flex items-center gap-2"
+                htmlFor="lt"
+              >
                 <span className="text-xs text-red-500 mr-2">*</span>Lote
+                <InfoDisableInput />
               </Label>
               <Input
+                disabled={loteDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={handleLoteChange}
                 value={lote !== undefined ? lote : ''}
@@ -174,8 +193,13 @@ export default function Home() {
             </div>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="titulo">
+            <Label
+              onDoubleClick={() => setTituloDisabled(!tituloDisabled)}
+              className="flex items-center gap-2"
+              htmlFor="titulo"
+            >
               <span className="text-xs text-red-500 mr-2">*</span>Nome do
+              <InfoDisableInput />
               arquivo
             </Label>
             <Input
@@ -191,6 +215,7 @@ export default function Home() {
                   handleRenameFileName()
                 }
               }}
+              disabled={tituloDisabled}
               onChange={handleTituloChange}
               value={titulo as string}
               id="titulo"
@@ -201,10 +226,16 @@ export default function Home() {
 
           <div className="flex sm:items-center gap-5 ">
             <div className="grid gap-2">
-              <Label htmlFor="empresa">
+              <Label
+                onDoubleClick={() => setEmpresaDisabled(!empresaDisabled)}
+                className="flex items-center gap-2"
+                htmlFor="empresa"
+              >
                 <span className="text-xs text-red-500 mr-2">*</span>Empresa
+                <InfoDisableInput />
               </Label>
               <Input
+                disabled={empresaDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setEmpresa(Number(e.target.value))}
                 value={empresa !== undefined ? empresa : ''}
@@ -216,10 +247,16 @@ export default function Home() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="obra">
+              <Label
+                onDoubleClick={() => setObraDisabled(!obraDisabled)}
+                className="flex items-center gap-2"
+                htmlFor="obra"
+              >
                 <span className="text-xs text-red-500 mr-2">*</span>Obra
+                <InfoDisableInput />
               </Label>
               <Input
+                disabled={obraDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setObra(e.target.value.toUpperCase())}
                 value={obra !== undefined ? obra : ''}
@@ -231,10 +268,16 @@ export default function Home() {
           </div>
           <div className="flex sm:items-center gap-5 ">
             <div className="grid gap-2">
-              <Label htmlFor="venda">
+              <Label
+                onDoubleClick={() => setVendaDisabled(!vendaDisabled)}
+                className="flex items-center gap-2"
+                htmlFor="venda"
+              >
                 <span className="text-xs text-red-500 mr-2">*</span>Venda
+                <InfoDisableInput />
               </Label>
               <Input
+                disabled={vendaDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setVenda(Number(e.target.value))}
                 value={venda !== undefined ? venda : ''}
@@ -246,8 +289,16 @@ export default function Home() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="suffix">Sufixo</Label>
+              <Label
+                onDoubleClick={() => setSuffixDisabled(!setSuffixDisabled)}
+                className="flex items-center gap-2"
+                htmlFor="suffix"
+              >
+                Sufixo
+                <InfoDisableInput />
+              </Label>
               <Input
+                disabled={suffixDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setSuffix(Number(e.target.value))}
                 value={suffix !== undefined ? suffix : ''}
