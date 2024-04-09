@@ -139,7 +139,7 @@ export default function Home() {
         </CardHeader>
 
         <CardContent className="grid gap-4 ">
-          <div className="flex sm:items-center gap-5 max-sm:flex-col">
+          <div className="flex sm:items-center gap-5 ">
             <div className="grid gap-2">
               <Label htmlFor="qd">
                 <span className="text-xs text-red-500 mr-2">*</span>Quadra
@@ -199,7 +199,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="flex sm:items-center gap-5 max-sm:flex-col">
+          <div className="flex sm:items-center gap-5 ">
             <div className="grid gap-2">
               <Label htmlFor="empresa">
                 <span className="text-xs text-red-500 mr-2">*</span>Empresa
@@ -229,7 +229,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="flex sm:items-center gap-5 max-sm:flex-col">
+          <div className="flex sm:items-center gap-5 ">
             <div className="grid gap-2">
               <Label htmlFor="venda">
                 <span className="text-xs text-red-500 mr-2">*</span>Venda
