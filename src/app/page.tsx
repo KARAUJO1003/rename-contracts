@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { Check, Copy, SortAsc, SortDesc, Trash } from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
@@ -56,6 +56,8 @@ export default function Home() {
   const [formattedResults, setFormattedResults] = useState<string[]>([])
   const [ascendingOrder, setAscendingOrder] = useState(false)
 
+  const loteInputRef = useRef<HTMLInputElement>(null)
+
   const handleRenameFileName = () => {
     if (!quadra || !lote || !venda || !titulo || !empresa || !obra) {
       toast.error('Preencha todos os campos obrigatórios.')
@@ -82,6 +84,9 @@ export default function Home() {
       { quadra, lote, titulo, venda, empresa, obra, suffix },
       ...newFileName,
     ])
+    if (loteInputRef.current) {
+      loteInputRef.current.focus()
+    }
   }
 
   useEffect(() => {
@@ -188,6 +193,7 @@ export default function Home() {
                 min={1}
                 placeholder="--"
                 maxLength={2}
+                ref={loteInputRef}
                 required
               />
             </div>
