@@ -153,8 +153,8 @@ export default function Home() {
                 onDoubleClick={() => setQuadraDisabled(!quadraDisabled)}
                 htmlFor="qd"
               >
-                <InfoDisableInput />
                 <span className="text-xs text-red-500 mr-2">*</span>Quadra
+                <InfoDisableInput />
               </Label>
               <Input
                 disabled={quadraDisabled}
@@ -199,8 +199,8 @@ export default function Home() {
               htmlFor="titulo"
             >
               <span className="text-xs text-red-500 mr-2">*</span>Nome do
-              <InfoDisableInput />
               arquivo
+              <InfoDisableInput />
             </Label>
             <Input
               onKeyDown={(e) => {
