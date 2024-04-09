@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { Check, Copy } from 'lucide-react'
+import { Check, Copy, SortAsc, SortDesc, Trash } from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { ModeToggle } from './_components/toggle-theme'
 import {
@@ -28,21 +28,26 @@ interface RenamedProps {
   lote: number | null
   titulo: string | null
   venda: number | null
+  empresa: number | null
+  obra: string | null
   suffix: number | null
 }
 
 export default function Home() {
-  const [quadra, setQuadra] = useState<number | null>(null)
-  const [lote, setLote] = useState<number | null>(null)
-  const [titulo, setTitulo] = useState<string | null>(null)
-  const [venda, setVenda] = useState<number | null>(null)
-  const [suffix, setSuffix] = useState<number | null>(1)
+  const [quadra, setQuadra] = useState<number | undefined>(undefined)
+  const [lote, setLote] = useState<number | undefined>(undefined)
+  const [titulo, setTitulo] = useState<string | ''>('')
+  const [venda, setVenda] = useState<number | undefined>(undefined)
+  const [empresa, setEmpresa] = useState<number>(328)
+  const [obra, setObra] = useState<string | ''>('CDRVA')
+  const [suffix, setSuffix] = useState<number>(1)
   const [newFileName, setNewFileName] = useState<RenamedProps[]>([])
-  const [showCopyIcon, setShowCopyIcon] = useState(false)
+  const [copiedItemIndex, setCopiedItemIndex] = useState<number | null>(null)
   const [formattedResults, setFormattedResults] = useState<string[]>([])
+  const [ascendingOrder, setAscendingOrder] = useState(false)
 
   const handleRenameFileName = () => {
-    if (!quadra || !lote || !venda || !titulo) {
+    if (!quadra || !lote || !venda || !titulo || !empresa || !obra) {
       toast.error('Preencha todos os campos obrigatórios.')
       return
     }
@@ -53,6 +58,8 @@ export default function Home() {
         item.lote === lote &&
         item.titulo === titulo &&
         item.venda === venda &&
+        item.empresa === empresa &&
+        item.obra === obra &&
         item.suffix === suffix,
     )
 
@@ -61,7 +68,10 @@ export default function Home() {
       return
     }
 
-    setNewFileName([{ quadra, lote, titulo, venda, suffix }, ...newFileName])
+    setNewFileName([
+      { quadra, lote, titulo, venda, empresa, obra, suffix },
+      ...newFileName,
+    ])
   }
 
   useEffect(() => {
@@ -70,7 +80,10 @@ export default function Home() {
       return newFileName.map((item) => {
         return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
           item.lote,
-        ).padStart(2, '0')}_${item.titulo}_328_CDRVA_${item.venda}_(${
+        ).padStart(
+          2,
+          '0',
+        )}_${item.titulo}_${item.empresa}_${item.obra}_${item.venda}_(${
           item.suffix
         })`
       })
@@ -80,14 +93,13 @@ export default function Home() {
     setFormattedResults(formatResults())
   }, [newFileName])
 
-  function handleCopyToClipboard(text: string) {
+  function handleCopyToClipboard(text: string, index: number) {
     toast.success(text)
     navigator.clipboard.writeText(text)
 
-    setShowCopyIcon(true)
-
+    setCopiedItemIndex(index)
     setTimeout(() => {
-      setShowCopyIcon(false)
+      setCopiedItemIndex(null)
     }, 2000)
   }
 
@@ -105,6 +117,14 @@ export default function Home() {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setLote(Number(inputValue))
   }
+  const toggleSortOrder = () => {
+    setAscendingOrder((prevOrder) => !prevOrder)
+  }
+
+  // Função para classificar os resultados com base na ordem atual
+  const sortedResults = formattedResults.sort((a, b) => {
+    return ascendingOrder ? a.localeCompare(b) : b.localeCompare(a)
+  })
 
   return (
     <main className="min-h-screen max-w-lg mx-auto py-5 space-y-5 max-sm:px-4">
@@ -122,13 +142,12 @@ export default function Home() {
           <div className="flex sm:items-center gap-5 max-sm:flex-col">
             <div className="grid gap-2">
               <Label htmlFor="qd">
-                {' '}
                 <span className="text-xs text-red-500 mr-2">*</span>Quadra
               </Label>
               <Input
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={handleQuadraChange}
-                value={quadra as number}
+                value={quadra !== undefined ? quadra : ''}
                 id="qd"
                 type="number"
                 min={1}
@@ -139,13 +158,12 @@ export default function Home() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="lt">
-                {' '}
                 <span className="text-xs text-red-500 mr-2">*</span>Lote
               </Label>
               <Input
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={handleLoteChange}
-                value={lote as number}
+                value={lote !== undefined ? lote : ''}
                 id="lt"
                 type="number"
                 min={1}
@@ -180,16 +198,46 @@ export default function Home() {
               required
             />
           </div>
+
+          <div className="flex sm:items-center gap-5 max-sm:flex-col">
+            <div className="grid gap-2">
+              <Label htmlFor="empresa">
+                <span className="text-xs text-red-500 mr-2">*</span>Empresa
+              </Label>
+              <Input
+                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
+                onChange={(e) => setEmpresa(Number(e.target.value))}
+                value={empresa !== undefined ? empresa : ''}
+                id="empresa"
+                type="number"
+                min={1}
+                placeholder="-----"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="obra">
+                <span className="text-xs text-red-500 mr-2">*</span>Obra
+              </Label>
+              <Input
+                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
+                onChange={(e) => setObra(e.target.value.toUpperCase())}
+                value={obra !== undefined ? obra : ''}
+                id="obra"
+                type="text"
+                required
+              />
+            </div>
+          </div>
           <div className="flex sm:items-center gap-5 max-sm:flex-col">
             <div className="grid gap-2">
               <Label htmlFor="venda">
-                {' '}
                 <span className="text-xs text-red-500 mr-2">*</span>Venda
               </Label>
               <Input
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setVenda(Number(e.target.value))}
-                value={venda as number}
+                value={venda !== undefined ? venda : ''}
                 id="venda"
                 type="number"
                 min={1}
@@ -202,7 +250,7 @@ export default function Home() {
               <Input
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setSuffix(Number(e.target.value))}
-                value={suffix as number}
+                value={suffix !== undefined ? suffix : ''}
                 id="suffix"
                 type="number"
                 min={1}
@@ -221,9 +269,38 @@ export default function Home() {
         </CardFooter>
       </Card>
 
+      {formattedResults.length > 0 && (
+        <div className="w-full flex justify-between items-center ">
+          <Button onClick={() => setNewFileName([])} variant="outline">
+            <Trash size={12} className="mr-3" />
+            Limpar tudo
+          </Button>
+          <TooltipProvider>
+            <Tooltip delayDuration={2}>
+              <TooltipTrigger asChild>
+                <Button
+                  disabled={formattedResults.length <= 1}
+                  size="icon"
+                  variant="outline"
+                  onClick={toggleSortOrder}
+                >
+                  {ascendingOrder ? (
+                    <SortDesc size={18} />
+                  ) : (
+                    <SortAsc size={18} />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+                Ordenar por ordem alfabética
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      )}
       <ScrollArea className="w-full ">
         <div className="max-h-80 space-y-3 ">
-          {formattedResults.map((result, index) => (
+          {sortedResults.map((result, index) => (
             <Card
               className="p-4 px-6 w-full  flex items-center justify-between shadow-none  space-x-3"
               key={index}
@@ -237,13 +314,13 @@ export default function Home() {
               <Button
                 size={'icon'}
                 variant={'outline'}
-                onClick={() => handleCopyToClipboard(result)}
+                onClick={() => handleCopyToClipboard(result, index)}
               >
                 <TooltipProvider>
                   <Tooltip delayDuration={2}>
                     <TooltipTrigger asChild>
                       <Button variant="outline" size="icon">
-                        {showCopyIcon ? (
+                        {copiedItemIndex === index ? ( // Verifica se este é o item clicado
                           <Check className="text-emerald-600" size={12} />
                         ) : (
                           <Copy size={12} />
