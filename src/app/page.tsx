@@ -104,7 +104,7 @@ export default function Home() {
   }
 
   const handleTituloChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/[^\w\s]/gi, '') // Remove caracteres especiais
+    const inputValue = e.target.value.replace(/[^\w\s]/gi, '').toUpperCase() // Remove caracteres especiais
     setTitulo(inputValue.toUpperCase()) // Converte para maiúsculas e atualiza o estado
   }
 
