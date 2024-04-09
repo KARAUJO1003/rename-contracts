@@ -29,7 +29,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <footer className="flex w-full items-center justify-center py-5 text-slate-300 text-xs">
+          <footer className="flex w-full items-center justify-center py-5 text-slate-500 text-xs">
             <Link
               className="flex items-center gap-1"
               href={'/https://www.instagram.com/kaesyo_/'}
