@@ -107,7 +107,7 @@ export default function Home() {
     setCopiedItemIndex(index)
     setTimeout(() => {
       setCopiedItemIndex(null)
-    }, 10000)
+    }, 20000)
   }
 
   const handleTituloChange = (e: React.ChangeEvent<HTMLInputElement>) => {
