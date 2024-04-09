@@ -143,7 +143,7 @@ export default function Home() {
       <Card className="w-full ">
         <ModeToggle />
         <CardHeader>
-          <CardTitle className="text-2xl">Renomear Arquivos</CardTitle>
+          <CardTitle className="text-2xl">Nomes de Arquivos</CardTitle>
           <CardDescription>
             Adicione as informações solicitadas abaixo e copie o resultado para
             área de transferência.

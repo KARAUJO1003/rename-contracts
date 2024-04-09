@@ -10,7 +10,7 @@ import { Instagram } from 'lucide-react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Renomeie Contratos',
+  title: 'T Pattern',
   description: 'Utilize o site para gerar um padrão específico de nomes.',
 }
 
