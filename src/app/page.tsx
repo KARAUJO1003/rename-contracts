@@ -380,7 +380,7 @@ export default function Home() {
                     </TooltipTrigger>
                     <TooltipContent
                       align="center"
-                      className="text-xs backdrop-blur-md border dark:bg-slate-900 text-primary"
+                      className="text-xs backdrop-blur-md border dark:bg-slate-900 bg-slate-100 text-primary"
                     >
                       <p>Copiar resultado para área de transferência.</p>
                     </TooltipContent>
