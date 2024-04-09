@@ -327,6 +327,14 @@ export default function Home() {
         </CardFooter>
       </Card>
 
+      {formattedResults.length === 0 && (
+        <Card className="p-4 px-6 w-full  flex items-center justify-center shadow-none  space-x-3 ">
+          <CardDescription className="text-xs text-muted-foreground uppercase max-w-80 select-none">
+            Você ainda não possui nenhum resultado.
+          </CardDescription>
+        </Card>
+      )}
+
       {formattedResults.length > 0 && (
         <div className="w-full flex justify-between items-center ">
           <Button onClick={() => setNewFileName([])} variant="outline">
@@ -364,7 +372,7 @@ export default function Home() {
               key={index}
             >
               <ScrollArea className="w-full py-2">
-                <CardDescription className="text-xs text-primary uppercase max-w-80 select-none">
+                <CardDescription className="text-xs text-muted-foreground font-medium uppercase max-w-80 select-none">
                   {result}
                 </CardDescription>
                 <ScrollBar orientation="horizontal" />
