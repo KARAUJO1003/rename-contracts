@@ -26,7 +26,7 @@ export function ModeToggle({ className }: ModeToggleProps) {
         <Button
           variant="ghost"
           size="icon"
-          className={cn('absolute top-5 right-5', className)}
+          className={cn('fixed top-5 right-5', className)}
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />

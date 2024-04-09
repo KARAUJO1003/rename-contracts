@@ -114,7 +114,7 @@ export default function Home() {
           <CardTitle className="text-2xl">Renomeie Contratos</CardTitle>
           <CardDescription>
             Adicione as informações solicitadas abaixo e copie o resultado para
-            área de trabalho.
+            área de transferência.
           </CardDescription>
         </CardHeader>
 
