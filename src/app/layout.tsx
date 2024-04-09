@@ -4,6 +4,8 @@ import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from './providers/theme-provider'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import { Instagram } from 'lucide-react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,6 +29,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <footer className="flex w-full items-center justify-center py-5 text-slate-300 text-xs">
+            <Link
+              className="flex items-center gap-1"
+              href={'/https://www.instagram.com/kaesyo_/'}
+            >
+              <Instagram size={10} />
+              kaesyo_
+            </Link>
+          </footer>
         </ThemeProvider>
         <Toaster position="top-left" />
       </body>
