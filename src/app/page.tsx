@@ -37,9 +37,11 @@ import { cn } from '@/lib/utils'
 import {
   Command,
   CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandShortcut,
 } from '@/components/ui/command'
 import {
   Popover,
@@ -221,7 +223,6 @@ export default function Home() {
             Adicione as informações solicitadas abaixo e copie o resultado para
             área de transferência. {''}
           </CardDescription>
-          {/* <ComboboxDemo /> */}
         </CardHeader>
 
         <CardContent className="flex flex-col gap-4 ">
@@ -311,28 +312,31 @@ export default function Home() {
                     Nenhuma descrição encontrada.{' '}
                   </CommandEmpty>
                   <CommandList>
-                    {sortedDescriptions.map((description) => (
-                      <CommandItem
-                        key={description}
-                        value={description}
-                        onSelect={(currentValue) => {
-                          setDocumentName(
-                            currentValue === documentName ? '' : currentValue,
-                          )
-                          setOpen(false)
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            documentName === description
-                              ? 'opacity-100'
-                              : 'opacity-0',
-                          )}
-                        />
-                        {description}
-                      </CommandItem>
-                    ))}
+                    <CommandGroup heading="Digite o nome ou utilize as setas ↑ ou ↓ para selecionar uma opção.">
+                      {sortedDescriptions.map((description) => (
+                        <CommandItem
+                          key={description}
+                          value={description}
+                          onSelect={(currentValue) => {
+                            setDocumentName(
+                              currentValue === documentName ? '' : currentValue,
+                            )
+                            setOpen(false)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              documentName === description
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                          {description}
+                          <CommandShortcut>Enter</CommandShortcut>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
                   </CommandList>
                 </Command>
               </PopoverContent>
