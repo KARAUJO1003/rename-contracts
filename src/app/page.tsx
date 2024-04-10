@@ -145,12 +145,14 @@ export default function Home() {
   const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setQuadra(Number(inputValue))
+    setNewFileName([])
   }
 
   const handleLoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setLote(Number(inputValue))
     setVenda(undefined)
+    setNewFileName([])
   }
   const toggleSortOrder = () => {
     setAscendingOrder((prevOrder) => !prevOrder)
