@@ -71,7 +71,8 @@ export default function Home() {
 
   const [quadraDisabled, setQuadraDisabled] = useState<boolean>(false)
   const [loteDisabled, setLoteDisabled] = useState<boolean>(false)
-  const [tituloDisabled, setDocumentNameDisabled] = useState<boolean>(false)
+  const [documentNameDisabled, setDocumentNameDisabled] =
+    useState<boolean>(false)
   const [vendaDisabled, setVendaDisabled] = useState<boolean>(false)
   const [empresaDisabled, setEmpresaDisabled] = useState<boolean>(true)
   const [obraDisabled, setObraDisabled] = useState<boolean>(true)
@@ -289,7 +290,9 @@ export default function Home() {
 
           <div className="grid gap-2">
             <Label
-              onDoubleClick={() => setDocumentNameDisabled(!tituloDisabled)}
+              onDoubleClick={() =>
+                setDocumentNameDisabled(!documentNameDisabled)
+              }
               className="flex items-center gap-2"
               htmlFor="documentName"
             >
@@ -301,6 +304,10 @@ export default function Home() {
               <PopoverTrigger asChild>
                 <Button
                   // onFocus={() => setOpen(true)}
+                  onDoubleClick={() =>
+                    setDocumentNameDisabled(!documentNameDisabled)
+                  }
+                  disabled={documentNameDisabled}
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
