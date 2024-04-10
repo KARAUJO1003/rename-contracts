@@ -152,6 +152,7 @@ export default function Home() {
     setQuadra(Number(inputValue))
     setVenda(undefined)
     setNewFileName([])
+    setDocumentName('')
   }
 
   const handleLoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,6 +160,7 @@ export default function Home() {
     setLote(Number(inputValue))
     setVenda(undefined)
     setNewFileName([])
+    setDocumentName('')
   }
   const toggleSortOrder = () => {
     setAscendingOrder((prevOrder) => !prevOrder)
