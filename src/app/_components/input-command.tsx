@@ -70,6 +70,7 @@ export const descriptions = [
   'PROCESSO_JUDICIAL',
   'PROPOSTA',
   'PROTOCOLO',
+  'PROTOCOLO_ENTREGA_DE_CONTRATO',
   'SENTENCA_JUDICIAL',
 ]
 
