@@ -422,7 +422,7 @@ export default function Home() {
 
             <div className="col-span-1 space-y-1">
               <Label
-                onDoubleClick={() => setSuffixDisabled(!setSuffixDisabled)}
+                onDoubleClick={() => setSuffixDisabled(!suffixDisabled)}
                 className="flex items-center gap-2"
                 htmlFor="suffix"
               >
