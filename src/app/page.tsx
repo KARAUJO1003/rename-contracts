@@ -150,6 +150,7 @@ export default function Home() {
   const handleLoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setLote(Number(inputValue))
+    setVenda(undefined)
   }
   const toggleSortOrder = () => {
     setAscendingOrder((prevOrder) => !prevOrder)
@@ -172,7 +173,7 @@ export default function Home() {
                 <TooltipTrigger className="flex items-center gap-1 text-emerald-600">
                   <InfoIcon size={16} />
                 </TooltipTrigger>
-                <TooltipContent className="bg-slate-100 border dark:bg-background text-gray-800 dark:text-gray-200 max-w-96 p-5">
+                <TooltipContent className="bg-slate-100/90 backdrop-blur-md border dark:bg-background/90 text-gray-800 dark:text-gray-200 max-w-96 p-5">
                   <CardTitle className="text-lg">
                     Utilize teclas de atalho para obter mais agilidade.
                   </CardTitle>
