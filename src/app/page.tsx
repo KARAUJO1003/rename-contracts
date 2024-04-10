@@ -300,7 +300,7 @@ export default function Home() {
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  onFocus={() => setOpen(true)}
+                  // onFocus={() => setOpen(true)}
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
