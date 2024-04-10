@@ -86,6 +86,7 @@ export default function Home() {
   const sortedDescriptions = descriptions.sort((a, b) => a.localeCompare(b))
 
   const loteInputRef = useRef<HTMLInputElement>(null)
+  const vendaInputRef = useRef<HTMLInputElement>(null)
 
   const handleRenameFileName = () => {
     if (!quadra || !lote || !venda || !documentName || !empresa || !obra) {
@@ -116,6 +117,7 @@ export default function Home() {
     if (loteInputRef.current) {
       loteInputRef.current.focus()
     }
+    setSuffix(1)
   }
 
   useEffect(() => {
@@ -165,6 +167,16 @@ export default function Home() {
   const sortedResults = formattedResults.sort((a, b) => {
     return ascendingOrder ? a.localeCompare(b) : b.localeCompare(a)
   })
+
+  const handleDocumentNameSelect = (currentValue: string) => {
+    setDocumentName(currentValue === documentName ? '' : currentValue)
+    setOpen(false)
+
+    // Define o foco no próximo campo de entrada (Empresa)
+    if (vendaInputRef.current) {
+      vendaInputRef.current.focus()
+    }
+  }
 
   return (
     <main className=" max-w-xl mx-auto space-y-5 max-sm:px-4">
@@ -288,7 +300,7 @@ export default function Home() {
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  // onFocus={() => setOpen(true)}
+                  onFocus={() => setOpen(true)}
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
@@ -317,12 +329,9 @@ export default function Home() {
                         <CommandItem
                           key={description}
                           value={description}
-                          onSelect={(currentValue) => {
-                            setDocumentName(
-                              currentValue === documentName ? '' : currentValue,
-                            )
-                            setOpen(false)
-                          }}
+                          onSelect={(currentValue) =>
+                            handleDocumentNameSelect(currentValue)
+                          }
                         >
                           <Check
                             className={cn(
@@ -398,6 +407,7 @@ export default function Home() {
                 <InfoDisableInput />
               </Label>
               <Input
+                ref={vendaInputRef}
                 disabled={vendaDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
                 onChange={(e) => setVenda(Number(e.target.value))}
