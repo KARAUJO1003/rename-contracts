@@ -14,9 +14,10 @@ export const InfoDisableInput = () => {
         <TooltipTrigger asChild>
           <InfoIcon size={12} />
         </TooltipTrigger>
-        <TooltipContent className="bg-slate-100 border dark:bg-gray-800 text-gray-800 dark:text-gray-200 max-w-60">
-          Dê um duplo clique sobre o nome do input, para habilitar/desabilitar a
-          edição.
+        <TooltipContent className="bg-slate-100 border dark:bg-background text-gray-800 dark:text-gray-200 max-w-60">
+          Dê um <strong className="text-emerald-600">duplo clique</strong> sobre
+          o nome do input, para <span className="underline">habilitar</span> ou{' '}
+          <span className="underline">desabilitar</span> edição.
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -13,7 +13,15 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { Check, Copy, SortAsc, SortDesc, Trash } from 'lucide-react'
+import {
+  Check,
+  Copy,
+  SortAsc,
+  SortDesc,
+  Trash,
+  ChevronsUpDown,
+  InfoIcon,
+} from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { ModeToggle } from './_components/toggle-theme'
 import {
@@ -24,10 +32,26 @@ import {
 } from '@/components/ui/tooltip'
 import { InfoDisableInput } from './_components/info-disabled-input'
 
+import { cn } from '@/lib/utils'
+
+import {
+  Command,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { descriptions } from './_components/input-command'
+
 interface RenamedProps {
   quadra: number | null
   lote: number | null
-  titulo: string | null
+  documentName: string | null
   venda: number | null
   empresa: number | null
   obra: string | null
@@ -37,7 +61,7 @@ interface RenamedProps {
 export default function Home() {
   const [quadra, setQuadra] = useState<number | undefined>(undefined)
   const [lote, setLote] = useState<number | undefined>(undefined)
-  const [titulo, setTitulo] = useState<string | ''>('')
+  const [documentName, setDocumentName] = useState<string | ''>('')
   const [venda, setVenda] = useState<number | undefined>(undefined)
   const [empresa, setEmpresa] = useState<number>(328)
   const [obra, setObra] = useState<string | ''>('CDRVA')
@@ -45,7 +69,7 @@ export default function Home() {
 
   const [quadraDisabled, setQuadraDisabled] = useState<boolean>(false)
   const [loteDisabled, setLoteDisabled] = useState<boolean>(false)
-  const [tituloDisabled, setTituloDisabled] = useState<boolean>(false)
+  const [tituloDisabled, setDocumentNameDisabled] = useState<boolean>(false)
   const [vendaDisabled, setVendaDisabled] = useState<boolean>(false)
   const [empresaDisabled, setEmpresaDisabled] = useState<boolean>(true)
   const [obraDisabled, setObraDisabled] = useState<boolean>(true)
@@ -55,11 +79,14 @@ export default function Home() {
   const [copiedItemIndex, setCopiedItemIndex] = useState<number | null>(null)
   const [formattedResults, setFormattedResults] = useState<string[]>([])
   const [ascendingOrder, setAscendingOrder] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const sortedDescriptions = descriptions.sort((a, b) => a.localeCompare(b))
 
   const loteInputRef = useRef<HTMLInputElement>(null)
 
   const handleRenameFileName = () => {
-    if (!quadra || !lote || !venda || !titulo || !empresa || !obra) {
+    if (!quadra || !lote || !venda || !documentName || !empresa || !obra) {
       toast.error('Preencha todos os campos obrigatórios.')
       return
     }
@@ -68,7 +95,7 @@ export default function Home() {
       (item) =>
         item.quadra === quadra &&
         item.lote === lote &&
-        item.titulo === titulo &&
+        item.documentName === documentName &&
         item.venda === venda &&
         item.empresa === empresa &&
         item.obra === obra &&
@@ -81,7 +108,7 @@ export default function Home() {
     }
 
     setNewFileName([
-      { quadra, lote, titulo, venda, empresa, obra, suffix },
+      { quadra, lote, documentName, venda, empresa, obra, suffix },
       ...newFileName,
     ])
     if (loteInputRef.current) {
@@ -95,7 +122,7 @@ export default function Home() {
       return newFileName.map((item) => {
         return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
           item.lote,
-        ).padStart(2, '0')}_${item.titulo}_${item.empresa}_${item.obra}_${
+        ).padStart(2, '0')}_${item.documentName}_${item.empresa}_${item.obra}_${
           item.venda
         }_(${item.suffix})`
       })
@@ -113,11 +140,6 @@ export default function Home() {
     setTimeout(() => {
       setCopiedItemIndex(null)
     }, 20000)
-  }
-
-  const handleTituloChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/[^\w\s]/gi, '').toUpperCase() // Remove caracteres especiais
-    setTitulo(inputValue.toUpperCase()) // Converte para maiúsculas e atualiza o estado
   }
 
   const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,21 +161,68 @@ export default function Home() {
   })
 
   return (
-    <main className="min-h-screen max-w-lg mx-auto py-5 space-y-5 max-sm:px-4">
-      <Card className="w-full ">
+    <main className=" max-w-xl mx-auto space-y-5 max-sm:px-4">
+      <Card className="w-full mt-10">
         <ModeToggle />
         <CardHeader>
-          <CardTitle className="text-2xl">Nomes de Arquivos</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle className="text-2xl">Nomes de Arquivos</CardTitle>
+            <TooltipProvider>
+              <Tooltip defaultOpen delayDuration={2}>
+                <TooltipTrigger className="flex items-center gap-1 text-emerald-600">
+                  <InfoIcon size={16} />
+                </TooltipTrigger>
+                <TooltipContent className="bg-slate-100 border dark:bg-background text-gray-800 dark:text-gray-200 max-w-96 p-5">
+                  <CardTitle className="text-lg">
+                    Utilize teclas de atalho para obter mais agilidade.
+                  </CardTitle>
+                  <ol className="ml-5">
+                    <br />
+                    <li className="list-decimal">
+                      Pressione a tecla{' '}
+                      <strong className="text-emerald-600">TAB</strong> para{' '}
+                      <span className=" text-emerald-600">avançar</span> para o
+                      próximo campo.
+                    </li>
+                    <br />
+                    <li className="list-decimal">
+                      Pressione as teclas{' '}
+                      <strong className="text-emerald-600">Shift + TAB</strong>{' '}
+                      para <span className=" text-emerald-600">voltar</span>{' '}
+                      para o campo anterior.
+                    </li>
+                    <br />
+                    <li className="list-decimal">
+                      Pressione as teclas{' '}
+                      <strong className="text-emerald-600">Ctrl + A</strong>{' '}
+                      para selecionar todo o texto do campo selecionado.
+                    </li>
+                    <br />
+                    <li className="list-decimal">
+                      Dê um{' '}
+                      <strong className="text-emerald-600">duplo clique</strong>{' '}
+                      sobre a label de qualquer input, dessa forma poderá{' '}
+                      <strong className="text-emerald-600">
+                        habilitar ou desabilitar
+                      </strong>{' '}
+                      a edição do campo.
+                    </li>
+                    <br />
+                  </ol>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <CardDescription>
             Adicione as informações solicitadas abaixo e copie o resultado para
-            área de transferência.
+            área de transferência. {''}
           </CardDescription>
           {/* <ComboboxDemo /> */}
         </CardHeader>
 
-        <CardContent className="grid gap-4 ">
-          <div className="flex sm:items-center gap-5 ">
-            <div className="grid gap-2">
+        <CardContent className="flex flex-col gap-4 ">
+          <div className="grid grid-cols-2 items-center gap-2 justify-between w-full ">
+            <div className="col-span-1 space-y-1">
               <Label
                 className="flex items-center gap-2"
                 onDoubleClick={() => setQuadraDisabled(!quadraDisabled)}
@@ -175,7 +244,8 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="grid gap-2">
+
+            <div className="col-span-1 space-y-1">
               <Label
                 onDoubleClick={() => setLoteDisabled(!loteDisabled)}
                 className="flex items-center gap-2"
@@ -199,40 +269,74 @@ export default function Home() {
               />
             </div>
           </div>
+
           <div className="grid gap-2">
             <Label
-              onDoubleClick={() => setTituloDisabled(!tituloDisabled)}
+              onDoubleClick={() => setDocumentNameDisabled(!tituloDisabled)}
               className="flex items-center gap-2"
-              htmlFor="titulo"
+              htmlFor="documentName"
             >
               <span className="text-xs text-red-500 mr-2">*</span>Nome do
               arquivo
               <InfoDisableInput />
             </Label>
-            <Input
-              onKeyDown={(e) => {
-                if (e.key === ' ') {
-                  e.preventDefault() // Impede a inserção da barra de espaço no input
-                  setTitulo((prevTitulo) => {
-                    // Substitui o espaço por "_"
-                    return prevTitulo ? prevTitulo.trim() + '_' : '_'
-                  })
-                }
-                if (e.key === 'Enter') {
-                  handleRenameFileName()
-                }
-              }}
-              disabled={tituloDisabled}
-              onChange={handleTituloChange}
-              value={titulo as string}
-              id="titulo"
-              type="text"
-              required
-            />
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  // onFocus={() => setOpen(true)}
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-full justify-between"
+                >
+                  {documentName
+                    ? sortedDescriptions.find(
+                        (description) => description === documentName,
+                      )
+                    : 'Selecione um nome...'}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Command className="w-full">
+                  <CommandInput
+                    id="documentName"
+                    placeholder="Busque um nome relacionado..."
+                  />
+                  <CommandEmpty className="text-xs p-5 mx-auto">
+                    Nenhuma descrição encontrada.{' '}
+                  </CommandEmpty>
+                  <CommandList>
+                    {sortedDescriptions.map((description) => (
+                      <CommandItem
+                        key={description}
+                        value={description}
+                        onSelect={(currentValue) => {
+                          setDocumentName(
+                            currentValue === documentName ? '' : currentValue,
+                          )
+                          setOpen(false)
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            documentName === description
+                              ? 'opacity-100'
+                              : 'opacity-0',
+                          )}
+                        />
+                        {description}
+                      </CommandItem>
+                    ))}
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
-          <div className="flex sm:items-center gap-5 ">
-            <div className="grid gap-2">
+          <div className="grid grid-cols-2 items-center gap-2 justify-between w-full ">
+            <div className="col-span-1 space-y-1">
               <Label
                 onDoubleClick={() => setEmpresaDisabled(!empresaDisabled)}
                 className="flex items-center gap-2"
@@ -253,7 +357,8 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="grid gap-2">
+
+            <div className="col-span-1 space-y-1">
               <Label
                 onDoubleClick={() => setObraDisabled(!obraDisabled)}
                 className="flex items-center gap-2"
@@ -273,8 +378,9 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="flex sm:items-center gap-5 ">
-            <div className="grid gap-2">
+
+          <div className="grid grid-cols-2 items-center gap-2 justify-between w-full ">
+            <div className="col-span-1 space-y-1">
               <Label
                 onDoubleClick={() => setVendaDisabled(!vendaDisabled)}
                 className="flex items-center gap-2"
@@ -295,7 +401,8 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="grid gap-2">
+
+            <div className="col-span-1 space-y-1">
               <Label
                 onDoubleClick={() => setSuffixDisabled(!setSuffixDisabled)}
                 className="flex items-center gap-2"
@@ -319,17 +426,18 @@ export default function Home() {
         </CardContent>
         <CardFooter className="flex flex-col  gap-5">
           <Button
+            disabled={formattedResults.length === 0}
             onClick={handleRenameFileName}
-            className="w-full dark:bg-emerald-600 dark:text-primary "
+            className="w-full bg-emerald-700 hover:bg-emerald-600 dark:text-primary uppercase mb-3 py-5"
           >
-            Gerar
+            confirmar
           </Button>
         </CardFooter>
       </Card>
 
       {formattedResults.length === 0 && (
-        <Card className="p-4 px-6 w-full  flex items-center justify-center shadow-none  space-x-3 ">
-          <CardDescription className="text-xs text-muted-foreground uppercase max-w-80 select-none">
+        <Card className="p-4 px-6 w-full  flex flex-col items-center justify-center  space-x-3 ">
+          <CardDescription className="text-xs text-muted-foreground uppercase max-w-96 select-none">
             Você ainda não possui nenhum resultado.
           </CardDescription>
         </Card>
@@ -337,8 +445,12 @@ export default function Home() {
 
       {formattedResults.length > 0 && (
         <div className="w-full flex justify-between items-center ">
-          <Button onClick={() => setNewFileName([])} variant="outline">
-            <Trash size={12} className="mr-3" />
+          <Button
+            onClick={() => setNewFileName([])}
+            variant="outline"
+            className="hover:text-red-400"
+          >
+            <Trash size={14} className="mr-2" />
             Limpar tudo
           </Button>
           <TooltipProvider>
@@ -349,15 +461,16 @@ export default function Home() {
                   size="icon"
                   variant="outline"
                   onClick={toggleSortOrder}
+                  className="hover:text-emerald-600 transition-all"
                 >
                   {ascendingOrder ? (
-                    <SortDesc size={18} />
+                    <SortDesc size={16} />
                   ) : (
-                    <SortAsc size={18} />
+                    <SortAsc size={16} />
                   )}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-slate-100 border dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+              <TooltipContent className="bg-slate-100 border dark:bg-background text-gray-800 dark:text-gray-200">
                 Ordenar por ordem alfabética
               </TooltipContent>
             </Tooltip>
@@ -365,14 +478,14 @@ export default function Home() {
         </div>
       )}
       <ScrollArea className="w-full ">
-        <div className="max-h-80 space-y-3 ">
+        <div className="max-h-60 space-y-3 ">
           {sortedResults.map((result, index) => (
             <Card
-              className="p-4 px-6 w-full  flex items-center justify-between shadow-none  space-x-3"
+              className="p-4 px-6 w-full  flex items-center justify-between   space-x-3"
               key={index}
             >
               <ScrollArea className="w-full py-2">
-                <CardDescription className="text-xs text-muted-foreground font-medium uppercase max-w-80 select-none">
+                <CardDescription className="text-sm text-primary font-bold uppercase max-w-96 select-none">
                   {result}
                 </CardDescription>
                 <ScrollBar orientation="horizontal" />
@@ -385,17 +498,21 @@ export default function Home() {
                 <TooltipProvider>
                   <Tooltip delayDuration={2}>
                     <TooltipTrigger asChild>
-                      <Button variant="outline" size="icon">
+                      <Button
+                        className="hover:text-emerald-600 transition-all"
+                        variant="outline"
+                        size="icon"
+                      >
                         {copiedItemIndex === index ? ( // Verifica se este é o item clicado
                           <Check className="text-emerald-600" size={12} />
                         ) : (
-                          <Copy size={12} />
+                          <Copy size={14} />
                         )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent
                       align="center"
-                      className="text-xs backdrop-blur-md border dark:bg-slate-900 bg-slate-100 text-primary"
+                      className="text-xs backdrop-blur-md border dark:bg-background bg-slate-100 text-primary"
                     >
                       <p>Copiar resultado para área de transferência.</p>
                     </TooltipContent>

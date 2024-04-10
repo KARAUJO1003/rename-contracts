@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ptbr">
-      <body className={cn('bg-slate-100 dark:bg-slate-950', inter.className)}>
+      <body className={cn('bg-slate-200 dark:bg-slate-950', inter.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

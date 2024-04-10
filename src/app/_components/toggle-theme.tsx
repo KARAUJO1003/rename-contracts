@@ -24,7 +24,7 @@ export function ModeToggle({ className }: ModeToggleProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
           className={cn('fixed top-5 right-5', className)}
         >
