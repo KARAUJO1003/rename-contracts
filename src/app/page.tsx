@@ -426,7 +426,6 @@ export default function Home() {
         </CardContent>
         <CardFooter className="flex flex-col  gap-5">
           <Button
-            disabled={formattedResults.length === 0}
             onClick={handleRenameFileName}
             className="w-full bg-emerald-700 hover:bg-emerald-600 dark:text-primary uppercase mb-3 py-5"
           >
