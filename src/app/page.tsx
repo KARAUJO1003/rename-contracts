@@ -178,6 +178,7 @@ export default function Home() {
     // Define o foco no próximo campo de entrada (Empresa)
     if (vendaInputRef.current) {
       vendaInputRef.current.focus()
+      vendaInputRef.current.select()
     }
   }
 
