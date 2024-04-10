@@ -141,9 +141,9 @@ export default function Home() {
     navigator.clipboard.writeText(text)
 
     setCopiedItemIndex(index)
-    setTimeout(() => {
-      setCopiedItemIndex(null)
-    }, 20000)
+    // setTimeout(() => {
+    //   setCopiedItemIndex(null)
+    // }, 20000)
   }
 
   const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
