@@ -484,7 +484,7 @@ export default function Home() {
               key={index}
             >
               <ScrollArea className="w-full py-2">
-                <CardDescription className="text-sm text-primary font-bold uppercase max-w-96 select-none">
+                <CardDescription className="text-sm text-slate-600 dark:text-slate-300 font-bold uppercase max-w-96 select-none">
                   {result}
                 </CardDescription>
                 <ScrollBar orientation="horizontal" />
