@@ -145,6 +145,7 @@ export default function Home() {
   const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.slice(0, 2) // Limita a entrada a 2 caracteres
     setQuadra(Number(inputValue))
+    setVenda(undefined)
     setNewFileName([])
   }
 
