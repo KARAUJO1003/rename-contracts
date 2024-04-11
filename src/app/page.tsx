@@ -326,7 +326,7 @@ export default function Home() {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-full justify-between text-slate-500 bg-transparent"
+                  className="w-full justify-between text-slate-500 bg-transparent font-normal"
                 >
                   {documentName
                     ? sortedDescriptions.find(
