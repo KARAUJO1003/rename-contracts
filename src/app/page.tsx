@@ -21,7 +21,6 @@ import {
   Trash,
   ChevronsUpDown,
   InfoIcon,
-  ExternalLink,
 } from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { ModeToggle } from './_components/toggle-theme'
@@ -144,9 +143,9 @@ export default function Home() {
     navigator.clipboard.writeText(text)
 
     setCopiedItemIndex(index)
-    // setTimeout(() => {
-    //   setCopiedItemIndex(null)
-    // }, 20000)
+    setTimeout(() => {
+      setCopiedItemIndex(null)
+    }, 20000)
   }
 
   const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
