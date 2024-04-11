@@ -21,6 +21,7 @@ import {
   Trash,
   ChevronsUpDown,
   InfoIcon,
+  ExternalLink,
 } from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { ModeToggle } from './_components/toggle-theme'
@@ -49,6 +50,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { descriptions } from './_components/input-command'
+import Link from 'next/link'
 
 interface RenamedProps {
   quadra: number | null
@@ -237,7 +239,18 @@ export default function Home() {
           </div>
           <CardDescription>
             Adicione as informações solicitadas abaixo e copie o resultado para
-            área de transferência. {''}
+            área de transferência. Caso esteja sentindo falta de alguma opção
+            você pode enviar sua sugestão clicando {''}
+            <span>
+              <Link
+                className="text-emerald-600 font-bold"
+                target="_blank"
+                href="https://forms.office.com/Pages/ResponsePage.aspx?id=3NRXPhbwQEWzuNZntcuVEjHHR9RYLHxCk8pBCNJ0YtNUQkpNNjM2SDNMR1JVVTY4M0FSMkM3SEVUSi4u"
+              >
+                <span>aqui</span>
+              </Link>
+            </span>
+            .
           </CardDescription>
         </CardHeader>
 
