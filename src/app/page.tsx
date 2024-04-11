@@ -145,7 +145,7 @@ export default function Home() {
     setCopiedItemIndex(index)
     setTimeout(() => {
       setCopiedItemIndex(null)
-    }, 20000)
+    }, 10000)
   }
 
   const handleQuadraChange = (e: React.ChangeEvent<HTMLInputElement>) => {
