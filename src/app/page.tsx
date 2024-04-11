@@ -314,13 +314,13 @@ export default function Home() {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-full justify-between"
+                  className="w-full justify-between text-slate-500"
                 >
                   {documentName
                     ? sortedDescriptions.find(
                         (description) => description === documentName,
                       )
-                    : 'Selecione um nome...'}
+                    : 'Busque um nome relacionado...'}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -420,7 +420,10 @@ export default function Home() {
                 ref={vendaInputRef}
                 disabled={vendaDisabled}
                 onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
-                onChange={(e) => setVenda(Number(e.target.value))}
+                onChange={(e) => {
+                  setVenda(Number(e.target.value))
+                  setNewFileName([])
+                }}
                 value={venda !== undefined ? venda : ''}
                 id="venda"
                 type="number"
