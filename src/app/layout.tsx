@@ -6,6 +6,7 @@ import { ThemeProvider } from './providers/theme-provider'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { CheckCircle, Info, Instagram, XCircle } from 'lucide-react'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,6 +30,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Analytics />
           <footer className="flex w-full items-center justify-center py-5 text-slate-500 text-xs">
             <Link
               className="flex items-center gap-1"
