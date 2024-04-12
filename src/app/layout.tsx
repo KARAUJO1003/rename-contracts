@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from './providers/theme-provider'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { Instagram } from 'lucide-react'
+import { CheckCircle, Info, Instagram, XCircle } from 'lucide-react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,7 +39,14 @@ export default function RootLayout({
             </Link>
           </footer>
         </ThemeProvider>
-        <Toaster position="top-center" />
+        <Toaster
+          position="top-center"
+          icons={{
+            success: <CheckCircle className="size-5 text-emerald-500" />,
+            error: <XCircle className="size-5 text-emerald-500" />,
+            info: <Info className="size-5 text-emerald-500" />,
+          }}
+        />
       </body>
     </html>
   )

@@ -92,7 +92,7 @@ export default function Home() {
 
   const handleRenameFileName = () => {
     if (!quadra || !lote || !venda || !documentName || !empresa || !obra) {
-      toast.error('Preencha todos os campos obrigatórios.')
+      toast.info('Preencha todos os campos obrigatórios.')
       return
     }
 
