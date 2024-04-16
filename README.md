@@ -13,6 +13,8 @@ Este projeto foi desenvolvido inteiramente na Stack front-end, com  intuito de s
 
 3 - Todo o texto deve ser escrito em Caixa Alta, Sem caracteres especiais ou acentuações.
 
+4 - O time deve seguir uma lista padrão de descrição para arquivos estabelecidas por um array.
+
 ### Requisitos Funcionais:
 Eu tinha em torno de 2 horas para criar esse projeto então por esse motivo eu acabei escolhendo utilizar o Framework Next.Js para desenvolvimento, visto que ele já trás uma estrutura de configuração e arquivos de extrema importância e muito essencial para a construção de app, como TypeScript, Tailwind, Eslint, e o próprio React de fábrica.
 
