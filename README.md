@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+## Seja bem vindo!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Este projeto foi desenvolvido inteiramente na Stack front-end, com  intuito de ser facil de usar para resolver um problema simples no dia-a-dia da organização que faço parte.
+É um projeto simples, mas que tive que fazer bem rápido, pois eu e outras pessoas precisariamos nos adptar com um novo padrão de nomenclatura estabelecido para nomes de arquivos e ele deve seguir algumas regras:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Regras de Negçocio:
+1 - O modelo de nomenclaturas não pode conter espaços em branco de forma alguma e todos os espaços devem ser substituídos por " _ "
+2 - O padrão deve ser: QD_00_LT_00_DESCRIÇÃO_DO_ARQUIVO_EMPRESA_OBRA_VENDA_(SUFIXO)
+3 - Todo o texto deve ser escrito em Caixa Alta, Sem caracteres especiais ou acentuações.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Requisitos Funcionais:
+Eu tinha em torno de 2 horas para criar esse projeto então por esse motivo eu acabei escolhendo utilizar o Framework Next.Js para desenvolvimento, visto que ele já trás uma estrutura de configuração e arquivos de extrema importância e muito essencial para a construção de app, como TypeScript, Tailwind, Eslint, e o próprio React de fábrica.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Requisitos não funcionais:
+Eu optei por utilizar a CLI do Shadcn-UI para criação de uma interface padrão e bonita, pois é muito prática de utilizar e customizável. Consegui em poucos minutos criar toda a interface e gostei bastante do resultado! Espero que tenham gostado também.
+O projeto também conta com alternância de modos dark e light pensando na usabilidade do usuário final podendo escolher da sua preferência ou deixando o próprio sitema opercional tomar essa decisão.
 
-## Learn More
+## Como fazer uma cópia?
 
-To learn more about Next.js, take a look at the following resources:
+Você pode clonar o repositório e instalar todas a dependências necessárias através do comando `npm install` ou `npm i` de forma abreviada
+Logo em seguida você só precisará rodar o projeto com o comando `npm run dev` ou `yarn dev` ou qualquer outro gerênciador de pacotes que preferir...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Imagens do projeto:
+ 
+ - Modo Ligth 
+![Claro](https://github.com/KARAUJO1003/rename-contracts/assets/129511975/4e1d6760-3a6c-45a7-86bb-6ef23f0c9e79)
+  
+ - Modo Dark
+![Escuri](https://github.com/KARAUJO1003/rename-contracts/assets/129511975/0ad88e5d-79f9-4f6d-8f1c-6641286e5b7b)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Se gostou do projeto, me segue para acompanhar mais!🚀
