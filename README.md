@@ -6,8 +6,11 @@ Este projeto foi desenvolvido inteiramente na Stack front-end, com  intuito de s
 É um projeto simples, mas que tive que fazer bem rápido, pois eu e outras pessoas precisariamos nos adptar com um novo padrão de nomenclatura estabelecido para nomes de arquivos e ele deve seguir algumas regras:
 
 ### Regras de Negçocio:
+
 1 - O modelo de nomenclaturas não pode conter espaços em branco de forma alguma e todos os espaços devem ser substituídos por " _ "
+
 2 - O padrão deve ser: QD_00_LT_00_DESCRIÇÃO_DO_ARQUIVO_EMPRESA_OBRA_VENDA_(SUFIXO)
+
 3 - Todo o texto deve ser escrito em Caixa Alta, Sem caracteres especiais ou acentuações.
 
 ### Requisitos Funcionais:
