@@ -5,7 +5,7 @@
 Este projeto foi desenvolvido inteiramente na front-end, com  intuito de ser facil de usar para resolver um problema simples no dia-a-dia da organização que faço parte.
 É um projeto simples, mas que tive que fazer bem rápido, pois eu e outras pessoas precisariamos nos adptar com um novo padrão de nomenclatura estabelecido para nomes de arquivos e ele deve seguir algumas regras:
 
-### Regras de Negçocio:
+### Regras de Negocio:
 
 1 - O modelo de nomenclaturas não pode conter espaços em branco de forma alguma e todos os espaços devem ser substituídos por " _ "
 
