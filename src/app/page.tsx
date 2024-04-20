@@ -68,7 +68,7 @@ export default function Home() {
   const [venda, setVenda] = useState<number | undefined>(undefined)
   const [empresa, setEmpresa] = useState<number>(328)
   const [obra, setObra] = useState<string | ''>('CDRVA')
-  const [suffix, setSuffix] = useState<number>(1)
+  const [suffix] = useState<number>(1)
 
   const [quadraDisabled, setQuadraDisabled] = useState<boolean>(false)
   const [loteDisabled, setLoteDisabled] = useState<boolean>(false)
@@ -77,7 +77,6 @@ export default function Home() {
   const [vendaDisabled, setVendaDisabled] = useState<boolean>(false)
   const [empresaDisabled, setEmpresaDisabled] = useState<boolean>(true)
   const [obraDisabled, setObraDisabled] = useState<boolean>(true)
-  const [suffixDisabled, setSuffixDisabled] = useState<boolean>(true)
 
   const [newFileName, setNewFileName] = useState<RenamedProps[]>([])
   const [copiedItemIndex, setCopiedItemIndex] = useState<number | null>(null)
@@ -89,48 +88,59 @@ export default function Home() {
 
   const loteInputRef = useRef<HTMLInputElement>(null)
   const vendaInputRef = useRef<HTMLInputElement>(null)
-
   const handleRenameFileName = () => {
     if (!quadra || !lote || !venda || !documentName || !empresa || !obra) {
       toast.info('Preencha todos os campos obrigatórios.')
       return
     }
 
-    const isDuplicate = newFileName.some(
+    const newName = { quadra, lote, documentName, venda, empresa, obra, suffix }
+
+    const existingNames = newFileName.filter(
       (item) =>
         item.quadra === quadra &&
         item.lote === lote &&
         item.documentName === documentName &&
         item.venda === venda &&
         item.empresa === empresa &&
-        item.obra === obra &&
-        item.suffix === suffix,
+        item.obra === obra,
     )
 
-    if (isDuplicate) {
-      toast.error('Já existe um registro com essas informações.')
-      return
+    if (existingNames.length > 0) {
+      // Encontrou nomes iguais, adiciona sufixo automaticamente
+      const highestSuffix = Math.max(
+        ...existingNames.map((item) => item.suffix!),
+      )
+      newName.suffix = highestSuffix + 1
     }
 
-    setNewFileName([
-      { quadra, lote, documentName, venda, empresa, obra, suffix },
-      ...newFileName,
-    ])
+    setNewFileName([newName, ...newFileName])
     if (loteInputRef.current) {
       loteInputRef.current.focus()
     }
-    setSuffix(1)
   }
 
   useEffect(() => {
     // Função para formatar os resultados
     const formatResults = () => {
       return newFileName.map((item) => {
-        return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
-          item.lote,
-        ).padStart(2, '0')}_${item.documentName}_${item.empresa}_${item.obra}_${
-          item.venda
-        }_(${item.suffix})`
+        if (item.suffix! > 1) {
+          return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
+            item.lote,
+          ).padStart(
+            2,
+            '0',
+          )}_${item.documentName}_${item.empresa}_${item.obra}_${
+            item.venda
+          }_(${item.suffix})`
+        } else {
+          return `QD_${String(item.quadra).padStart(2, '0')}_LT_${String(
+            item.lote,
+          ).padStart(
+            2,
+            '0',
+          )}_${item.documentName}_${item.empresa}_${item.obra}_${item.venda}`
+        }
       })
     }
 
@@ -419,7 +429,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 items-center gap-2 justify-between w-full ">
-            <div className="col-span-1 space-y-1">
+            <div className="col-span-2 space-y-1">
               <Label
                 onDoubleClick={() => setVendaDisabled(!vendaDisabled)}
                 className="flex items-center gap-2"
@@ -442,27 +452,6 @@ export default function Home() {
                 min={1}
                 placeholder="-----"
                 required
-              />
-            </div>
-
-            <div className="col-span-1 space-y-1">
-              <Label
-                onDoubleClick={() => setSuffixDisabled(!suffixDisabled)}
-                className="flex items-center gap-2"
-                htmlFor="suffix"
-              >
-                Sufixo
-                <InfoDisableInput />
-              </Label>
-              <Input
-                disabled={suffixDisabled}
-                onKeyDown={(e) => e.key === 'Enter' && handleRenameFileName()}
-                onChange={(e) => setSuffix(Number(e.target.value))}
-                value={suffix !== undefined ? suffix : ''}
-                id="suffix"
-                type="number"
-                min={1}
-                placeholder="Digite o número da ordem do documento..."
               />
             </div>
           </div>
@@ -490,10 +479,10 @@ export default function Home() {
           <Button
             onClick={() => setNewFileName([])}
             variant="outline"
-            className="hover:text-red-400"
+            className="hover:text-red-400 uppercase text-xs gap-1"
           >
-            <Trash size={14} className="mr-2" />
-            Limpar tudo
+            <Trash size={14} />
+            Limpar
           </Button>
           <TooltipProvider>
             <Tooltip delayDuration={2}>
