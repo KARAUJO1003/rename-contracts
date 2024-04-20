@@ -42,7 +42,9 @@ export default function RootLayout({
           </footer>
         </ThemeProvider>
         <Toaster
-          position="top-center"
+          closeButton
+          expand
+          position="bottom-right"
           icons={{
             success: <CheckCircle className="size-5 text-emerald-500" />,
             error: <XCircle className="size-5 text-emerald-500" />,
