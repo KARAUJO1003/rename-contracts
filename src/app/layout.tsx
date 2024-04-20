@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from './providers/theme-provider'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { CheckCircle, Info, Instagram, XCircle } from 'lucide-react'
+import { CheckCircle, GitBranch, Info, XCircle } from 'lucide-react'
 import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -33,10 +33,11 @@ export default function RootLayout({
           <Analytics />
           <footer className="flex w-full items-center justify-center py-5 text-slate-500 text-xs">
             <Link
+              target="_blank"
               className="flex items-center gap-1"
-              href={'/https://www.instagram.com/kaesyo_/'}
+              href={'https://kaesyo-portifolio.vercel.app/'}
             >
-              <Instagram size={10} />
+              <GitBranch size={10} />
               kaesyo_
             </Link>
           </footer>
